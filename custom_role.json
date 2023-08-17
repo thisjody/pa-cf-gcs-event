@@ -1,0 +1,15 @@
+{
+    "title": "custom_role_pa_cf_gcs_event",
+    "description": "Role for a specific Cloud Function to publish to Pub/Sub, read from GCS, invoke using Cloud Run infrastructure, and call Cloud Functions.",
+    "stage": "ALPHA",
+    "includedPermissions": [
+      "pubsub.topics.publish",
+      "storage.objects.get",
+      "eventarc.events.receiveEvent",
+      "run.routes.invoke"
+    ]
+}
+
+
+
+  
