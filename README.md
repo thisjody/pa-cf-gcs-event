@@ -86,7 +86,7 @@ The gcs_event_to_pubsub function operates as follows:
   - A dedicated service account, `pa-cf-gcs-event-sa`, is used for function operations.
 
 - **Automation**:
-  - A script, `create_role_and_sa_bind.sh`, is provided to manage the custom role and service account. It's essential to run this before deploying the function to ensure proper IAM configurations.
+  - A script, `create_role_and_sa_bind.sh`, is provided to manage the creation of the custom role and service account. It's essential to run this before deploying the function to ensure proper IAM configurations.
 
 - **Deployment**: 
   - Use the `gcloud` command-line tool with configurations in the `pa_edeploy.sh` script.
