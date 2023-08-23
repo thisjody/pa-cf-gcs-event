@@ -11,9 +11,10 @@ The `gcs_event_to_pubsub` function operates as follows:
 3. If matched, constructs a message containing the type, bucket name, and file name.
 4. Publishes the message to a specified Pub/Sub topic.
 
-### Exception Handling
+## Error Handling
 
-Should there be any issues with publishing to Pub/Sub, the function will log an error message and raise an exception to halt its operation. If the uploaded resource doesn't match the `.csv` pattern, a log entry detailing the failed regex match will be generated.
+- Publishing errors: Logged and halt the function.
+- Non-matching resources: Generate corresponding log entries.
 
 ## Dependencies
 
@@ -21,29 +22,46 @@ The Cloud Function leverages the Python packages defined in the `requirements.tx
 
 - `google-cloud-pubsub`
 - `google-cloud-storage`
+- `google-auth-httplib2`
+- `google-auth-oauthlib`
+- `google-cloud-secret-manager`
+- `google-auth`
 
-## Custom Role and Service Account
+## Roles and Service Accounts
 
-The function employs a specific custom role, `custom_role_pa_cf_gcs_event`, granting it permissions to:
+Two custom roles are utilized:
 
-- Publish to Pub/Sub.
-- Read from GCS.
-- Receive events from Eventarc.
-- Invoke routes using Cloud Run infrastructure.
+1. Deploy Role (custom_role_pa_cf_deploy):
 
-The custom role's definition can be found in the `custom_role.json` file. This role has been crafted to strictly adhere to the principle of least privilege, ensuring that the function is only granted permissions essential for its tasks.
+- Role for deploying the Cloud Function.
+- Definition: `pa-cf-deploy-role.json`.
 
-### Service Account Configuration
+2. Privileged Role (custom_role_pa_gcs_ps_privileged):
 
-To seamlessly and securely perform its tasks, a dedicated service account named `pa-cf-gcs-event-sa` is used.
+- Privileged role for the Cloud Function to publish messages to Pub/Sub, read from GCS, and more.
+- Definition: `pa-gcs-ps-privileged-role.json`.
+
+## Service Accounts
+
+Two service accounts are employed:
+
+1. **Deploy Service Account (`pa-cf-deploy-sa`)**: Used for deploying the function.
+2. **Privileged Service Account (`pa-gcs-ps-privileged-sa`)**: Used for higher-level operations like publishing messages.
+
+## Impersonation
+
+The function uses service account impersonation for elevated tasks. This means the deploying service account (pa-cf-deploy-sa) impersonates the privileged service account (pa-gcs-ps-privileged-sa) when specific privileges are required.
+
 
 ### Role and Service Account Automation
 
 A shell script, `create_role_and_sa_bind.sh`, has been provided to automate the processes of:
 
-- Checking, creating, or updating the custom role.
-- Checking or creating the service account.
-- Binding the custom role to the service account.
+1. Checking, creating, or updating the custom role.
+2. Creating service accounts if they don't exist.
+3. Granting Service Account Token Creator role to the deploy service account for impersonation.
+4. Binding the custom role to the service account.
+5. Managing secrets in Google Secret Manager.
 
 **Note**: Before deploying the Cloud Function using `pa_deploy.sh`, ensure that the custom role and service account are correctly created and bound. The Cloud Function deployment is dependent on these IAM configurations. Run the automation script as follows:
 
@@ -62,6 +80,10 @@ Ensure this step completes successfully before proceeding with the deployment.
 ## Deployment
 
 To deploy the Cloud Function, the gcloud command-line tool is used. Deployment configurations, including runtime, region, memory allocation, and environment variables, are specified in the `pa_edeploy.sh` script:
+
+```
+./pa_deploy.sh
+```
 
 ## Summary
 
