@@ -4,21 +4,21 @@
 PROJECT_ID="acep-ext-eielson-2021"
 
 # Set the names and paths for the roles
-DEPLOY_ROLE_NAME="custom_role_pa_cf_deploy"
-DEPLOY_ROLE_FILE="pa-cf-deploy-role.json"
+DEPLOY_ROLE_NAME="custom_role_pa_cf_ea_deploy"
+DEPLOY_ROLE_FILE="pa-cf-ea-deploy-role.json"
 
 PRIVILEGED_ROLE_NAME="custom_role_pa_gcs_ps_privileged"
 PRIVILEGED_ROLE_FILE="pa-gcs-ps-privileged-role.json"
 
 # Set the names and emails for the service accounts
-DEPLOY_SA_NAME="pa-cf-deploy-sa"
+DEPLOY_SA_NAME="pa-cf-ea-deploy-sa"
 DEPLOY_SA_EMAIL="${DEPLOY_SA_NAME}@${PROJECT_ID}.iam.gserviceaccount.com"
 
 PRIVILEGED_SA_NAME="pa-gcs-ps-privileged-sa"
 PRIVILEGED_SA_EMAIL="${PRIVILEGED_SA_NAME}@${PROJECT_ID}.iam.gserviceaccount.com"
 
 # Set the name for the secret holding the service account key
-SECRET_NAME="pa-cf-deploy-sa-credentials"
+SECRET_NAME="pa-cf-ea-deploy-sa-credentials"
 
 # Function to create or update a role
 create_or_update_role() {
