@@ -18,7 +18,8 @@ def get_secret(secret_name):
     return json.loads(response.payload.data.decode('UTF-8'))
 
 # Obtain service account credentials from Secret Manager
-sa_credentials = get_secret('pa-cf-deploy-sa-credentials')
+sa_credentials_secret_name = os.environ.get('SA_CREDENTIALS_SECRET_NAME')
+sa_credentials = get_secret(sa_credentials_secret_name)
 
 # Load the credentials for the less privileged SA from the secret
 credentials = service_account.Credentials.from_service_account_info(sa_credentials)
