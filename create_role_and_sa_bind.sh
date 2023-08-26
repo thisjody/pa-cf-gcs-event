@@ -79,6 +79,21 @@ bind_role_to_service_account() {
 bind_role_to_service_account $DEPLOY_ROLE_NAME $DEPLOY_SA_EMAIL
 bind_role_to_service_account $PRIVILEGED_ROLE_NAME $PRIVILEGED_SA_EMAIL
 
+# Function to remove secretAccessor role for the DEPLOY_SA_EMAIL from all secrets
+reset_deploy_secret_accessor_role() {
+    gcloud secrets list --format="get(name)" --project=$PROJECT_ID | while read -r SECRET; do
+        echo "Checking secret: $SECRET"
+        # Check if DEPLOY_SA_EMAIL has secretAccessor role for the secret
+        if gcloud secrets get-iam-policy $SECRET --project=$PROJECT_ID --format=json | grep -q "\"serviceAccount:$DEPLOY_SA_EMAIL\"" && gcloud secrets get-iam-policy $SECRET --project=$PROJECT_ID --format=json | grep -q "roles/secretmanager.secretAccessor"; then
+            gcloud secrets remove-iam-policy-binding $SECRET --project=$PROJECT_ID --role=roles/secretmanager.secretAccessor --member="serviceAccount:$DEPLOY_SA_EMAIL" --quiet
+            echo "Removed secretAccessor role for $DEPLOY_SA_EMAIL on secret: $SECRET"
+        fi
+    done
+}
+
+# Remove secretAccessor roles for DEPLOY_SA_EMAIL from all secrets
+reset_deploy_secret_accessor_role
+
 # Create the secret if it doesn't exist
 SECRET_EXISTS=$(gcloud secrets describe $SECRET_NAME --project=$PROJECT_ID 2>&1 | grep "name:")
 
