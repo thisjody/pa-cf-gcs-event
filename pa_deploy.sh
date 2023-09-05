@@ -2,7 +2,7 @@ gcloud functions deploy pa-cf-gcs-event \
   --gen2 \
   --runtime=python311 \
   --region=us-west1 \
-  --service-account=pa-cf-ea-deploy-sa@acep-ext-eielson-2021.iam.gserviceaccount.com \
+  --service-account=pa-cf-ea-deploy-gcs-event-sa@acep-ext-eielson-2021.iam.gserviceaccount.com \
   --source=src \
   --entry-point=gcs_event_to_pubsub \
   --trigger-event-filters="type=google.cloud.storage.object.v1.finalized,bucket=sw-pa-test" \
