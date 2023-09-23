@@ -1,11 +1,20 @@
+#!/bin/bash
+
+# Source the .env file
+source pa_deploy.env
+
+# Formulate the SET_ENV_VARS value
+SET_ENV_VARS="PROJECT_ID=$PROJECT_ID,TOPIC_NAME=$TOPIC_NAME,IMPERSONATE_SA=$IMPERSONATE_SA,TARGET_SCOPES=$TARGET_SCOPES,SA_CREDENTIALS_SECRET_NAME=$SA_CREDENTIALS_SECRET_NAME"
+
+# Deploy the function
 gcloud functions deploy pa-cf-gcs-event \
-  --gen2 \
-  --runtime=python311 \
-  --region=us-west1 \
-  --service-account=pa-cf-ea-deploy-gcs-event-sa@acep-ext-eielson-2021.iam.gserviceaccount.com \
-  --source=src \
-  --entry-point=gcs_event_to_pubsub \
-  --trigger-event-filters="type=google.cloud.storage.object.v1.finalized,bucket=sw-pa-test" \
-  --memory 16384MB \
-  --timeout 540s \
-  --set-env-vars "PROJECT_ID=acep-ext-eielson-2021,TOPIC_NAME=pa-gcs-event,IMPERSONATE_SA=pa-gcs-ps-privileged-sa@acep-ext-eielson-2021.iam.gserviceaccount.com,TARGET_SCOPES=https://www.googleapis.com/auth/cloud-platform,SA_CREDENTIALS_SECRET_NAME=pa-cf-ea-deploy-gcs-event-sa-credentials"
+  --$GEN2 \
+  --runtime=$RUNTIME \
+  --region=$REGION \
+  --service-account=$SERVICE_ACCOUNT \
+  --source=$SOURCE \
+  --entry-point=$ENTRY_POINT \
+  --trigger-event-filters="$TRIGGER_EVENT_FILTERS" \
+  --memory=$MEMORY \
+  --timeout=$TIMEOUT \
+  --set-env-vars "$SET_ENV_VARS"
