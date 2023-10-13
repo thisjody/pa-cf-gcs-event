@@ -76,10 +76,70 @@ The `pa_deploy.sh` script simplifies the deployment of the pa-cf-gcs-event Cloud
 ## Usage
 To use the script:
  
-```
+```bash
 ./pa_deploy.sh
 ```
 
- This script wraps the following `gcloud` command:
+## Workflow
+
+1. **gcloud command check**: The script first checks if the `gcloud` command-line tool is available on the system. If not, an error is raised.
+
+```bash
+if ! command -v gcloud &> /dev/null; then
+    ...
+fi
+```
+
+2. **gcloud authentication check**: The script then checks if the user is authenticated with `gcloud`.
+
+```bash
+gcloud auth list &> /dev/null
+...
+```
+
+3. **.env file prompt**: The user is prompted to provide the path to an `.env` file that contains required environment variables.
+
+```bash
+echo "Enter the path to the .env file to use (e.g. ./myenvfile.env):"
+read ENV_FILE
+```
+
+4. **.env file verification**: It checks if the provided .env file exists and is readable.
+
+```bash
+if [[ ! -f "$ENV_FILE" || ! -r "$ENV_FILE" ]]; then
+    ...
+fi
+```
+
+5. **Source .env file**: The .env file's variables are loaded into the script's environment.
+
+```bash
+source $ENV_FILE
+```
+
+6. **Environment Variable Checks**: The script checks if all the required environment variables are set. If any are missing, the deployment will not proceed.
+
+```bash
+declare -a required_vars=("GEN2" "RUNTIME" ... "SA_CREDENTIALS_SECRET_NAME")
+...
+```
+
+7. **Cloud Function Deployment**: With all checks complete and the environment set up, the script deploys the Cloud Function using the `gcloud command`.
+
+```bash
+gcloud functions deploy pa-cf-gcs-event \
+  --$GEN2 \
+  --runtime=$RUNTIME \
+  --region=$REGION \
+  --service-account=$SERVICE_ACCOUNT \
+  --source=$SOURCE \
+  --entry-point=$ENTRY_POINT \
+  --trigger-event-filters="$TRIGGER_EVENT_FILTERS" \
+  --memory=$MEMORY \
+  --timeout=$TIMEOUT \
+  --set-env-vars "$SET_ENV_VARS"
+  ```
+
 
 
