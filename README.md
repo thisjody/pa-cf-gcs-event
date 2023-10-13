@@ -141,5 +141,73 @@ gcloud functions deploy pa-cf-gcs-event \
   --set-env-vars "$SET_ENV_VARS"
   ```
 
+## .env File Configuration
+You should have an `deploy.env` file with the following variables defined:
+
+```bash
+GEN2=<value>
+RUNTIME=<value>
+REGION=<value>
+SERVICE_ACCOUNT=<value>
+SOURCE=<value>
+ENTRY_POINT=<value>
+TRIGGER_EVENT_FILTERS=<value>
+MEMORY=<value>
+TIMEOUT=<value>
+PROJECT_ID=<value>
+TOPIC_NAME=<value>
+IMPERSONATE_SA=<value>
+TARGET_SCOPES=<value>
+SA_CREDENTIALS_SECRET_NAME=<value>
+```
+
+Replace `<value>` with the appropriate values for your deployment.
+
+## Environment Variable Descriptions
+Below are descriptions for each environment variable used in the deployment script:
+
+- **GEN2**=`<value>`:
+  - Description: Specifies the generation of the Cloud Function to deploy. For example: `gen2` when you intend to deploy a second generation Google Cloud Function.
+
+- **RUNTIME**=`<value>`:
+  - Description: Specifies the runtime environment in which the Cloud Function executes. For example: `python311` for Python 3.11.
+
+- **REGION**=`<value>`:
+  - Description: The Google Cloud region where the Cloud Function will be deployed and run. Example values are `us-west1`, `europe-west1`, etc.
+
+- **SERVICE_ACCOUNT**=`<value>`:
+  - Description: The service account under which the Cloud Function will run. This defines the permissions that the Cloud Function has during execution.
+
+- **SOURCE**=`<value>`:
+  - Description: Path to the source code of the Cloud Function. Typically, this points to a directory containing all the necessary files for the function.
+
+- **ENTRY_POINT**=`<value>`:
+  - Description: Specifies the name of the function or method within the source code to be executed when the Cloud Function is triggered.
+
+- **TRIGGER_EVENT_FILTERS**=`<value>`:
+  - Description: A comma-separated filter list to specify the type(s) of event that triggers the Cloud Function. For instance, it could denote specific types of changes in a GCS bucket, like "type=google.cloud.storage.object.v1.finalized,bucket=sw-pa-test".
+
+- **MEMORY**=`<value>`:
+  - Description: The amount of memory to allocate for the Cloud Function. This is denoted in megabytes, e.g., `16384MB`.
+
+- **TIMEOUT**=`<value>`:
+  - Description: The maximum duration the Cloud Function is allowed to run before it is terminated. Expressed in seconds, e.g., `540s`.
+
+- **PROJECT_ID**=`<value>`:
+  - Description: The Google Cloud Project ID where the Cloud Function, GCS, and Pub/Sub reside.
+
+- **TOPIC_NAME**=`<value>`:
+  - Description: The name of the Pub/Sub topic to which the Cloud Function will publish messages.
+
+- **IMPERSONATE_SA**=`<value>`:
+  - Description: The service account to impersonate for elevated tasks. The deploying service account impersonates this account when specific privileges are required.
+
+- **TARGET_SCOPES**=`<value>`:
+  - Description: The authentication scopes required for the impersonated service account. Example: `https://www.googleapis.com/auth/cloud-platform` for a full access scope to GCP services.
+
+- **SA_CREDENTIALS_SECRET_NAME**=`<value>`:
+  - Description: The name of the secret stored in Google Secret Manager that contains the service account credentials used by the Cloud Function.
+
+
 
 
