@@ -1,3 +1,4 @@
+google-cloud-logging
 google-cloud-pubsub
 google-cloud-storage
 google-auth-httplib2
