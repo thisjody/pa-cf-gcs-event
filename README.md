@@ -208,6 +208,21 @@ Below are descriptions for each environment variable used in the deployment scri
 - **SA_CREDENTIALS_SECRET_NAME**=`<value>`:
   - Description: The name of the secret stored in Google Secret Manager that contains the service account credentials used by the Cloud Function.
 
+### Dependencies
+ 
+  The Cloud Function's dependencies are listed in the `requirements.txt` file and include:
 
+  ```
+  google-cloud-logging
+  google-cloud-pubsub
+  google-cloud-storage
+  google-auth-httplib2
+  google-auth-oauthlib
+  google-cloud-secret-manager
+  google-auth
+  ```
 
+## Conclusion
 
+---
+The `pa-cf-gcs-event` Cloud Function offers an efficient way to monitor and respond to Google Cloud Storage events, especially those concerning specific file naming patterns, by publishing them to a Google Pub/Sub topic. By leveraging Google Cloud's serverless capabilities, it ensures scalability without the need for extensive infrastructure management. Proper setup of environment variables and permissions, especially concerning service account impersonation, is paramount for security and function efficacy. The accompanying `pa_deploy.sh` script simplifies deployment, ensuring a streamlined implementation process for developers and cloud engineers.
