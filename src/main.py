@@ -1,10 +1,14 @@
 from google.cloud import pubsub_v1, secretmanager
+import logging
 from google.oauth2 import service_account
 from google.auth.transport import requests
 from google.auth import impersonated_credentials
 import os
 import json
 import re
+
+# This line is optional but will ensure that log statements of level INFO and above are shown
+logging.basicConfig(level=logging.INFO)
 
 # Setup the auth and request for token
 auth_request = requests.Request()
@@ -45,8 +49,8 @@ def publish_to_topic(message_data):
 
 def gcs_event_to_pubsub(data, context):
     """Function to handle GCS events and publish relevant ones to a Pub/Sub topic."""
-    print(f"Event type: {context.event_type}")
-    print(f"Event timestamp: {context.timestamp}")
+    logging.info(f"Event type: {context.event_type}")
+    logging.info(f"Event timestamp: {context.timestamp}")
 
     resource_name = data['name'].rstrip('/')
     
@@ -62,9 +66,9 @@ def gcs_event_to_pubsub(data, context):
             publish_message = publish_to_topic(message_data)
             publish_message.result()
         except Exception as e:
-            print(f'An error occurred when trying to publish message: {str(e)}')
+            logging.error(f'An error occurred when trying to publish message: {str(e)}')
             raise
         else:
-            print(f"Published message for resource {resource_name} in bucket {data['bucket']}")
+            logging.info(f"Published message for resource {resource_name} in bucket {data['bucket']}")
     else:
-        print(f"Failed regex match for resource: {resource_name}")
+        logging.warning(f"Failed regex match for resource: {resource_name}")
