@@ -11,6 +11,10 @@ The function operates as follows:
 4. If the file name matches the pattern, it formats a message and publishes it to a Pub/Sub topic. If not, it logs that the resource failed the regex match.
 5. For secure authentication and authorization purposes, the function utilizes impersonated credentials.
 
+## Utilize the PA-CF Shared Configs Toolkit
+
+Before diving into the deployment of this Cloud Function, it's vital to check out the [PA-CF Shared Configs Repository](https://github.com/acep-uaf/pa-cf-shared-configs). This valuable toolkit is designed to assist in efficiently setting up the necessary infrastructure, including creating service accounts, defining roles, and setting permissions. Using this toolkit will ensure a smooth and secure deployment of the Cloud Function, while minimizing manual configuration errors.
+
 ## Prerequisites
 Before deploying and using this cloud function, ensure you have:
 
