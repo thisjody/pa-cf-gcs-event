@@ -21,10 +21,11 @@ def get_secret(secret_name):
     response = client.access_secret_version(name=name)
     return json.loads(response.payload.data.decode('UTF-8'))
 
-def is_valid_file(resource_name):
-    """Check if the resource name matches the desired pattern."""
-    csv_pattern = r'(?i)^\d{4}/\d{2}/uaf-acep-[\w-]+/uaf-acep-[\w-]+_\d{4}-\d{2}-\d{2}\.csv$'
-    return re.match(csv_pattern, resource_name)
+def extract_dataset_name(resource_name):
+    """Check if the resource name matches the desired pattern and extract dataset name."""
+    csv_pattern = r'(?i)^(\d{4})/\d{2}/uaf-acep-[\w-]+/uaf-acep-[\w-]+_\d{4}-\d{2}-\d{2}\.csv$'
+    match = re.match(csv_pattern, resource_name)
+    return match.group(1) if match else None
 
 def get_impersonated_credentials():
     """Retrieve impersonated credentials."""
@@ -54,11 +55,13 @@ def gcs_event_to_pubsub(data, context):
 
     resource_name = data['name'].rstrip('/')
     
-    if is_valid_file(resource_name):
+    dataset_name = extract_dataset_name(resource_name)
+    if dataset_name:
         message = {
             "type": "csv",
             "bucket": data["bucket"],
-            "file_name": resource_name
+            "file_name": resource_name,
+            "dataset_name": dataset_name  # Include the extracted dataset name here
         }
         message_data = json.dumps(message).encode('utf-8')
 
