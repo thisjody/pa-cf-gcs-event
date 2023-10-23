@@ -32,7 +32,8 @@ def get_impersonated_credentials():
     sa_credentials_secret_name = os.environ.get('SA_CREDENTIALS_SECRET_NAME')
     sa_credentials = get_secret(sa_credentials_secret_name)
     credentials = service_account.Credentials.from_service_account_info(sa_credentials)
-    target_principal = os.getenv('IMPERSONATE_SA')
+
+    target_principal = os.getenv('IMPERSONATE_SA_LIST')  # Directly get the service account
     target_scopes = os.getenv('TARGET_SCOPES').split(",")
 
     return impersonated_credentials.Credentials(
