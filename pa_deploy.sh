@@ -27,7 +27,7 @@ fi
 source $ENV_FILE
 
 # Check if required variables are set
-declare -a required_vars=("GEN2" "RUNTIME" "REGION" "SERVICE_ACCOUNT" "SOURCE" "ENTRY_POINT" "TRIGGER_EVENT_FILTERS" "MEMORY" "TIMEOUT" "PROJECT_ID" "TOPIC_NAME" "IMPERSONATE_SA_LIST" "TARGET_SCOPES" "SA_CREDENTIALS_SECRET_NAME")
+declare -a required_vars=("GEN2" "RUNTIME" "REGION" "SERVICE_ACCOUNT" "SOURCE" "ENTRY_POINT" "TRIGGER_EVENT_FILTERS" "MEMORY" "TIMEOUT" "PROJECT_ID" "TOPIC_NAME" "IMPERSONATE_SA_MAP" "TARGET_SCOPES" "SA_CREDENTIALS_SECRET_NAME")
 unset_vars=()
 
 for var in "${required_vars[@]}"; do
@@ -36,8 +36,13 @@ for var in "${required_vars[@]}"; do
     fi
 done
 
+if [ ${#unset_vars[@]} -ne 0 ]; then
+    echo "Error: Missing environment variables: ${unset_vars[@]}"
+    exit 1
+fi
+
 # Formulate the SET_ENV_VARS value
-SET_ENV_VARS="PROJECT_ID=$PROJECT_ID,TOPIC_NAME=$TOPIC_NAME,IMPERSONATE_SA_LIST=$IMPERSONATE_SA_LIST,TARGET_SCOPES=$TARGET_SCOPES,SA_CREDENTIALS_SECRET_NAME=$SA_CREDENTIALS_SECRET_NAME"
+SET_ENV_VARS="PROJECT_ID=$PROJECT_ID,TOPIC_NAME=$TOPIC_NAME,IMPERSONATE_SA_MAP=$IMPERSONATE_SA_MAP,TARGET_SCOPES=$TARGET_SCOPES,SA_CREDENTIALS_SECRET_NAME=$SA_CREDENTIALS_SECRET_NAME"
 
 # Deploy the function
 gcloud functions deploy pa-cf-gcs-event \
