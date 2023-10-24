@@ -10,9 +10,13 @@ import re
 # This line is optional but will ensure that log statements of level INFO and above are shown
 logging.basicConfig(level=logging.INFO)
 
+
 # Setup the auth and request for token
 auth_request = requests.Request()
 PROJECT_ID = os.getenv('PROJECT_ID')
+SA_MAP = json.loads(os.getenv('IMPERSONATE_SA_MAP'))
+logging.info(f"SA_MAP: {SA_MAP}")
+
 
 def get_secret(secret_name):
     """Retrieve secrets from Google Secret Manager."""
@@ -27,13 +31,17 @@ def extract_dataset_name(resource_name):
     match = re.match(csv_pattern, resource_name)
     return match.group(1) if match else None
 
-def get_impersonated_credentials():
+def get_impersonated_credentials(action='publish'):
     """Retrieve impersonated credentials."""
     sa_credentials_secret_name = os.environ.get('SA_CREDENTIALS_SECRET_NAME')
     sa_credentials = get_secret(sa_credentials_secret_name)
     credentials = service_account.Credentials.from_service_account_info(sa_credentials)
 
-    target_principal = os.getenv('IMPERSONATE_SA_LIST')  # Directly get the service account
+    # Fetch the target service account based on the action provided
+    target_principal = SA_MAP.get(action)  
+    if not target_principal:
+        raise ValueError(f"No service account mapped for action: {action}")
+    
     target_scopes = os.getenv('TARGET_SCOPES').split(",")
 
     return impersonated_credentials.Credentials(
