@@ -25,9 +25,19 @@ def get_secret(secret_name):
     response = client.access_secret_version(name=name)
     return json.loads(response.payload.data.decode('UTF-8'))
 
+'''
 def extract_dataset_name(resource_name):
     """Check if the resource name matches the desired pattern and extract dataset name."""
     csv_pattern = r'(?i)^(\d{4})/\d{2}/uaf-acep-[\w-]+/uaf-acep-[\w-]+_\d{4}-\d{2}-\d{2}\.csv$'
+    match = re.match(csv_pattern, resource_name)
+    return match.group(1) if match else None
+'''
+def extract_dataset_name(resource_name):
+    """Check if the resource name matches the desired pattern and extract dataset name."""
+    csv_pattern = os.getenv('CSV_PATTERN_REGEX')
+    if not csv_pattern:
+        raise ValueError("CSV_PATTERN_REGEX environment variable not set.")
+    
     match = re.match(csv_pattern, resource_name)
     return match.group(1) if match else None
 
