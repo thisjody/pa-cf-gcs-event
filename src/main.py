@@ -57,7 +57,7 @@ def get_impersonated_credentials(action='publish'):
 def publish_to_topic(message_data):
     """Publish the given message data to a Pub/Sub topic."""
     publisher = pubsub_v1.PublisherClient(credentials=get_impersonated_credentials())
-    topic_path = publisher.topic_path(PROJECT_ID, os.getenv('TOPIC_NAME'))
+    topic_path = publisher.topic_path(PROJECT_ID, os.getenv('PUBLISH_TOPIC_NAME'))
     return publisher.publish(topic_path, message_data)
 
 def gcs_event_to_pubsub(data, context):
