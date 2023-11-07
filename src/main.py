@@ -7,20 +7,15 @@ import os
 import json
 import re
 
-# This line is optional but will ensure that log statements of level INFO and above are shown
 logging.basicConfig(level=logging.INFO)
-
 
 # Setup the auth and request for token
 auth_request = requests.Request()
 PROJECT_ID = os.getenv('PROJECT_ID')
-#SA_MAP = json.loads(os.getenv('IMPERSONATE_SA_MAP'))
-#logging.info(f"SA_MAP: {SA_MAP}")
+
 IMPERSONATE_SA_MAP = {
     'publish': os.environ['PUBLISH_SA']
 }
-
-
 
 def get_secret(secret_name):
     """Retrieve secrets from Google Secret Manager."""
@@ -29,14 +24,19 @@ def get_secret(secret_name):
     response = client.access_secret_version(name=name)
     return json.loads(response.payload.data.decode('UTF-8'))
 
-def extract_dataset_name(resource_name):
-    """Check if the resource name matches the desired pattern and extract dataset name."""
+def extract_info(resource_name):
+    """Check if the resource name matches the desired pattern and extract dataset and table names."""
     csv_pattern = os.getenv('CSV_PATTERN_REGEX')
     if not csv_pattern:
         raise ValueError("CSV_PATTERN_REGEX environment variable not set.")
     
     match = re.match(csv_pattern, resource_name)
-    return match.group(1) if match else None
+    if match:
+        dataset_name = f"{match.group(1)}_{match.group(2)}"
+        table_name = match.group(3).replace('-', '_')
+        return dataset_name.lower(), table_name.lower()
+    else:
+        return None, None
 
 def get_impersonated_credentials(action='publish'):
     """Retrieve impersonated credentials."""
@@ -67,13 +67,14 @@ def gcs_event_to_pubsub(data, context):
 
     resource_name = data['name'].rstrip('/')
     
-    dataset_name = extract_dataset_name(resource_name)
-    if dataset_name:
+    dataset_name, table_name = extract_info(resource_name)
+    if dataset_name and table_name:
         message = {
             "type": "csv",
             "bucket": data["bucket"],
             "file_name": resource_name,
-            "dataset_name": dataset_name  # Include the extracted dataset name here
+            "dataset_name": dataset_name,
+            "table_name": table_name  # Include the extracted table name here
         }
         message_data = json.dumps(message).encode('utf-8')
 
