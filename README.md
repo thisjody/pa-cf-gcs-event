@@ -81,7 +81,7 @@ The `pa_deploy.sh` script simplifies the deployment of the pa-cf-gcs-event Cloud
 To use the script:
  
 ```bash
-./pa_deploy.sh
+./pa_cf_gcs_event_deploy.sh
 ```
 
 ## Workflow
