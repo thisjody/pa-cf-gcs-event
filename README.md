@@ -132,7 +132,7 @@ declare -a required_vars=("GEN2" "RUNTIME" ... "SA_CREDENTIALS_SECRET_NAME")
 7. **Cloud Function Deployment**: With all checks complete and the environment set up, the script deploys the Cloud Function using the `gcloud command`.
 
 ```bash
-gcloud functions deploy pa-cf-gcs-event \
+gcloud functions deploy $CLOUDFUNCTION \
   --$GEN2 \
   --runtime=$RUNTIME \
   --region=$REGION \
