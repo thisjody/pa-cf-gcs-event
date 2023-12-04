@@ -153,6 +153,7 @@ GEN2=<value>
 RUNTIME=<value>
 REGION=<value>
 SERVICE_ACCOUNT=<value>
+CLOUDFUNCTION=<value>
 SOURCE=<value>
 ENTRY_POINT=<value>
 TRIGGER_EVENT_FILTERS=<value>
@@ -181,6 +182,9 @@ Below are descriptions for each environment variable used in the deployment scri
 
 - **SERVICE_ACCOUNT**=`<value>`:
   - Description: The service account under which the Cloud Function will run. This defines the permissions that the Cloud Function has during execution.
+
+- **CLOUDFUNCTION**=`<value>`:
+   - Description: The name of the Cloud Function to be deployed. It is used in the deployment script to identify which function the `gcloud functions deploy` command will target.
 
 - **SOURCE**=`<value>`:
   - Description: Path to the source code of the Cloud Function. Typically, this points to a directory containing all the necessary files for the function.
