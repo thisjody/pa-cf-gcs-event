@@ -20,7 +20,21 @@ The `pa-cf-gcs-event` Cloud Function exemplifies a modern, event-driven approach
 
 ## Utilize the PA-CF Shared Configs Toolkit
 
-Before diving into the deployment of this Cloud Function, it's vital to check out the [PA-CF Shared Configs Repository](https://github.com/acep-uaf/pa-cf-shared-configs). This valuable toolkit is designed to assist in efficiently setting up the necessary infrastructure, including creating service accounts, defining roles, and setting permissions. Using this toolkit will ensure a smooth and secure deployment of the Cloud Function, while minimizing manual configuration errors.
+Before diving into the deployment of this Cloud Function, it's vital to check out the [PA-CF Shared Configs Repository](https://github.com/acep-uaf/pa-cf-shared-configs). This valuable toolkit is designed to assist in efficiently setting up the necessary infrastructure, including creating service accounts, defining roles, and setting permissions. Using this toolkit will ensure a smooth and secure deployment of the Cloud Function, while minimizing manual configuration errors. Key aspects of the Shared Configs Toolkit include:
+
+1. **Standardized Configuration**: The toolkit provides a set of standardized configurations that are essential for the consistent and error-free deployment of the cloud function.
+
+2. **Efficient Setup**: It simplifies the setup process, reducing the complexity and time required to configure the necessary cloud resources and permissions.
+
+3. **Security and Compliance**: By using predefined configurations, the toolkit helps in maintaining security standards and compliance, ensuring that the cloud function operates within the defined guidelines.
+
+4. **Customization for Specific Needs**: While offering standard configurations, the toolkit also allows for necessary customizations specific to the `pa-cf-gcs-event` function. This includes setting up environment variables, defining roles, and permissions specific to the function's operation.
+
+5. **Simplified Deployment Process**: The toolkit assists in the automated deployment of the cloud function, making it easier to manage and update without extensive manual intervention.
+
+6. **Documentation and Support**: It provides comprehensive documentation and support, aiding in troubleshooting and ensuring that the function is set up correctly.
+
+The integration with the PA-CF Shared Configs Toolkit is vital for ensuring that the `pa-cf-gcs-event` function is deployed efficiently, securely, and in a way that is consistent with the broader data processing infrastructure.
 
 ## Prerequisites
 Before deploying and using this cloud function, ensure you have:
