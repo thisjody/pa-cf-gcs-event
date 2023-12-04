@@ -1,15 +1,22 @@
 # PA-CF-GCS-EVENT Cloud Function
 
 ## Overview
-This cloud function, named `gcs_event_to_pubsub`, is designed to handle events from Google Cloud Storage (GCS). When specific GCS events occur, particularly concerning files with a certain naming pattern, this function triggers and publishes relevant information to a Google Pub/Sub topic.
 
-The function operates as follows:
+The `pa-cf-gcs-event` Cloud Function is specifically designed to serve as an event-driven component in cloud-based data workflows, primarily focusing on responding to file events in Google Cloud Storage (GCS). It is finely tuned to trigger on specific GCS events, especially when files matching a predefined naming pattern are uploaded. The function's core operations are as follows:
 
-1. It listens to events from GCS.
-2. Extracts the resource name from the incoming event.
-3. Checks if the resource name (in this case, the file name) matches a desired pattern, which is primarily CSV files with a specific naming convention.
-4. If the file name matches the pattern, it formats a message and publishes it to a Pub/Sub topic. If not, it logs that the resource failed the regex match.
-5. For secure authentication and authorization purposes, the function utilizes impersonated credentials.
+1. **Event Listening**: Actively listens for file events from GCS, ready to respond to changes in storage.
+
+2. **Pattern Recognition**: Upon receiving an event, it extracts the resource name (file name) and evaluates it against a set regex pattern, typically targeting CSV files with a specific naming convention.
+
+3. **Selective Processing**: Only if the file name conforms to the expected pattern, the function proceeds to the next step. In cases where the file does not match, it logs the event for record-keeping and potential debugging purposes.
+
+4. **Message Publication**: For files that meet the criteria, it formats and publishes a message to a designated Google Pub/Sub topic, thereby initiating subsequent processes in the data pipeline.
+
+5. **Secure Operations**: The function incorporates impersonated credentials for heightened security, ensuring that operations are performed with appropriate authentication and authorization.
+
+6. **Efficient and Scalable Processing**: Built to handle varying volumes and types of data, this function is a testament to efficiency and scalability, adapting seamlessly to different operational requirements within the cloud environment.
+
+The `pa-cf-gcs-event` Cloud Function exemplifies a modern, event-driven approach in cloud computing, facilitating the automated and secure handling of storage events without intensive infrastructure management. Its integration into cloud-based workflows marks a significant step towards streamlined and efficient data processing in Google Cloud.
 
 ## Utilize the PA-CF Shared Configs Toolkit
 
