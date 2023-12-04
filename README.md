@@ -75,7 +75,7 @@ The function uses service account impersonation. The deploying service account (
 
 ## Deployment Script for PA-CF-GCS-EVENT Cloud Function
 
-The `pa_deploy.sh` script simplifies the deployment of the pa-cf-gcs-event Cloud Function by automating the process, ensuring the necessary prerequisites are met, and setting up the correct environment variables for deployment.
+The `pa_cf_gcs_event_deploy.sh` script simplifies the deployment of the pa-cf-gcs-event Cloud Function by automating the process, ensuring the necessary prerequisites are met, and setting up the correct environment variables for deployment.
 
 ## Usage
 To use the script:
