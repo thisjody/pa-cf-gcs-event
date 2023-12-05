@@ -110,8 +110,21 @@ The `pa-cf-gcs-event` Cloud Function serves as a critical and dynamic component 
 The `pa-cf-gcs-event` Cloud Function is thus an essential component in cloud-based data processing ecosystems, offering efficient, secure, and intelligent handling of GCS events to streamline the data management lifecycle.
 
 ## Error Handling
-- Publishing errors are logged and halt the function.
-- Non-matching resources generate log entries.
+
+The `pa-cf-gcs-event` Cloud Function incorporates comprehensive error handling mechanisms to maintain its reliability and effectiveness, even when confronted with unforeseen challenges. These mechanisms are strategically designed to detect, log, and appropriately manage various types of errors that might occur during the function's execution:
+
+1. **Logging of Exceptions**: All exceptions and errors encountered during the operation of the function are logged with detailed information. This includes errors during dataset and table creation, data loading, or while interacting with other cloud services.
+
+2. **Handling Google Cloud API Errors**: Specific errors related to Google Cloud APIs, such as `NotFound` and `Forbidden` exceptions, are caught and handled. This ensures that the function can gracefully handle issues such as missing resources or permission problems.
+
+3. **Error Propagation**: In cases where errors cannot be resolved within the function (e.g., permission issues, invalid configurations), these errors are propagated upwards. This allows for external monitoring tools or workflows to detect and respond to these issues.
+
+4. **Secure Failure State**: In scenarios where continued operation could lead to data inconsistency or other critical issues, the function is designed to fail securely. This approach prioritizes data integrity and system stability.
+
+5. **Alerting and Monitoring Integration**: The function's error handling integrates with Google Cloud's monitoring and alerting systems, enabling real-time notifications and in-depth analysis of error conditions.
+
+These error handling approaches ensure that the `pa-cf-gcs-event` Cloud Function remains a robust and dependable component in handling GCS events, capable of adapting to and overcoming various operational challenges.
+
 
 ## Dependencies
 The Cloud Function utilizes Python packages from `requirements.txt`:
