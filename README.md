@@ -39,24 +39,27 @@ The integration with the PA-CF Shared Configs Toolkit is vital for ensuring that
 ## Prerequisites
 Before deploying and using this cloud function, ensure you have:
 
-- **Google Cloud SDK**: Ensure the Google Cloud SDK is installed, as it provides tools to interact with Google Cloud resources. [Official Documentation](https://cloud.google.com/sdk/docs/install).
+1. - **Google Cloud SDK**: Ensure the Google Cloud SDK is installed, as it provides tools to interact with Google Cloud resources. [Official Documentation](https://cloud.google.com/sdk/docs/install).
   
-- **Google Cloud Project**: This function requires a Google Cloud Project where the Cloud Function, GCS, and Pub/Sub reside. Have the `PROJECT_ID` at hand.
+2. - **Google Cloud Project**: This function requires a Google Cloud Project where the Cloud Function, GCS, and Pub/Sub reside. Have the `PROJECT_ID` at hand.
   
-- **Environment Variables**: The function utilizes several environment variables, such as:
+3. - **Environment Variables**: The function utilizes several environment variables, such as:
     - `PROJECT_ID`: Your Google Cloud Project's ID.
     - `SA_CREDENTIALS_SECRET_NAME`: Secret name containing the service account credentials.
     - `IMPERSONATE_SA`: Service account to impersonate.
     - `TARGET_SCOPES`: Required scopes for the impersonated service account.
-    - `TOPIC_NAME`: Name of the Pub/Sub topic for message publishing.
 
-- **Google Secret Manager**: Store necessary secrets, like service account credentials.
+4. - **Google Secret Manager**: Store necessary secrets, like service account credentials.
 
-- **Google Cloud Storage (GCS)**: This function reacts to GCS bucket events. Ensure a GCS bucket is set up and capable of generating events.
+5. - **Google Cloud Storage (GCS)**: This function reacts to GCS bucket events. Ensure a GCS bucket is set up and capable of generating events.
 
-- **Google Pub/Sub**: Create a Pub/Sub topic for the function to publish messages. Set up the necessary permissions for publishing.
+6. - **Google Pub/Sub**: Create a Pub/Sub topic for the function to publish messages. Set up the necessary permissions for publishing.
 
-- **Permissions**: The function and its service account should have permissions for accessing Secret Manager, impersonating other service accounts, and publishing messages to Pub/Sub.
+7. - **Permissions**: The function and its service account should have permissions for accessing Secret Manager, impersonating other service accounts, and publishing messages to Pub/Sub.
+
+8. **PA-CF Shared Configs Toolkit**: Familiarity with the PA-CF Shared Configs Toolkit is recommended for efficient setup and deployment.
+
+Completing these prerequisites ensures that the `pa-cf-gcs-event` Cloud Function can be deployed smoothly and will operate as intended in your Google Cloud environment.
 
 ## Functionality Overview
 1. Logs the event type and timestamp from the triggering GCS event.
