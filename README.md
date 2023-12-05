@@ -61,6 +61,34 @@ Before deploying and using this cloud function, ensure you have:
 
 Completing these prerequisites ensures that the `pa-cf-gcs-event` Cloud Function can be deployed smoothly and will operate as intended in your Google Cloud environment.
 
+## Function Operation
+
+The `pa-cf-gcs-event` Cloud Function is designed to handle and process events from Google Cloud Storage (GCS), especially focusing on files that match specific naming patterns. The operation of this function can be outlined in the following steps:
+
+1. **Event Listening**:
+   - The function is triggered by file-related events in GCS, such as the uploading of new files to a specified bucket.
+
+2. **Extracting Information**:
+   - Upon triggering, it extracts the resource name (the file name) from the event data.
+   - Using the `extract_info` function, it then checks if the file name matches a predetermined regex pattern, which is primarily used to identify CSV files following a certain naming convention.
+
+3. **Credentials Impersonation**:
+   - For secure operations, the function utilizes impersonated credentials. It retrieves the necessary service account credentials for the 'publish' action from the Google Secret Manager.
+   - This approach ensures that the function has the appropriate permissions to perform its tasks while adhering to security best practices.
+
+4. **Data Publishing**:
+   - If the file name matches the regex pattern, the function formats a message containing the type of file, bucket name, file name, and the extracted dataset and table names.
+   - This message is then published to a specified Google Pub/Sub topic using the `publish_to_topic` function, facilitating the next steps in the data processing pipeline.
+
+5. **Error Handling and Logging**:
+   - The function includes robust error handling mechanisms. Any issues encountered during the operation, especially while publishing messages, are logged as errors.
+   - Additionally, if a resource name does not match the desired pattern, the function logs a warning, providing visibility into files that are not processed.
+
+6. **Scalability and Flexibility**:
+   - Built to accommodate various file types and data volumes, the `pa-cf-gcs-event` function is highly scalable and flexible. It can easily adapt to different file naming conventions and patterns by adjusting the regex pattern.
+
+This function operation flow showcases how `pa-cf-gcs-event` effectively acts as a gateway, filtering and forwarding relevant data from GCS to subsequent stages in the cloud-based data processing workflow.
+
 ## Functionality Overview
 1. Logs the event type and timestamp from the triggering GCS event.
 2. Checks if the uploaded resource's name matches a specific `.csv` pattern.
