@@ -127,14 +127,27 @@ These error handling approaches ensure that the `pa-cf-gcs-event` Cloud Function
 
 
 ## Dependencies
-The Cloud Function utilizes Python packages from `requirements.txt`:
 
-- `google-cloud-pubsub`
-- `google-cloud-storage`
-- `google-auth-httplib2`
-- `google-auth-oauthlib`
-- `google-cloud-secret-manager`
-- `google-auth`
+The `pa-cf-gcs-event` Cloud Function depends on a range of external libraries and services to function effectively. These dependencies encompass various Python packages and Google Cloud services. The key dependencies are as follows:
+
+1. **Google Cloud Pub/Sub**: Integral for publishing messages to Pub/Sub topics, which is a core part of the function's operation.
+
+2. **Google Cloud Storage**: Although not directly interacted with by the function, it is crucial for triggering the function through file events in GCS buckets.
+
+3. **Google Secret Manager**: Used for securely managing and accessing sensitive information such as service account credentials.
+
+4. **Python Libraries**:
+    - `google-cloud-pubsub`: The Python client library for Google Cloud Pub/Sub, enabling the function to publish messages to Pub/Sub topics.
+    - `google-cloud-secret-manager`: Used for accessing secrets stored in Google Secret Manager, critical for managing secure credentials.
+    - `google-auth`, `google-auth-httplib2`, and `google-auth-oauthlib`: These libraries provide authentication functionalities, essential for interacting securely with Google Cloud services.
+
+5. **Regular Expression Processing**:
+    - The function uses Python's built-in `re` module for regex operations, crucial for pattern matching in file names.
+
+6. **Logging and Error Handling**:
+    - `logging`: A standard Python library used for logging events, errors, and informational messages, aiding in debugging and monitoring the function's operation.
+
+It is important to have these dependencies correctly installed and configured to ensure smooth operation of the `pa-cf-gcs-event` Cloud Function. Proper setup helps prevent runtime errors and ensures that the function performs as intended within the cloud environment.
 
 ## Roles and Service Accounts
 - **Deploy Role (`custom_role_pa_cf_deploy`)**:
