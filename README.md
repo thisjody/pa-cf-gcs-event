@@ -150,20 +150,24 @@ The `pa-cf-gcs-event` Cloud Function depends on a range of external libraries an
 It is important to have these dependencies correctly installed and configured to ensure smooth operation of the `pa-cf-gcs-event` Cloud Function. Proper setup helps prevent runtime errors and ensures that the function performs as intended within the cloud environment.
 
 ## Roles and Service Accounts
-- **Deploy Role (`custom_role_pa_cf_deploy`)**:
-   - For deploying the Cloud Function.
-   - Definition: `pa-cf-deploy-role.json`.
-   
-- **Privileged Role (`custom_role_pa_gcs_ps_privileged`)**:
-   - For tasks like message publishing to Pub/Sub, GCS reading, etc.
-   - Definition: `pa-gcs-ps-privileged-role.json`.
 
-## Service Accounts
-- **Deploy Service Account (`pa-cf-deploy-sa`)**: For deployment.
-- **Privileged Service Account (`pa-gcs-ps-privileged-sa`)**: For elevated operations.
+The `PA-CF-GCS-EVENT` Cloud Function utilizes the [PA-CF Shared Configs Toolkit](https://github.com/acep-uaf/pa-cf-shared-configs) for standardized and secure configuration of service accounts. This toolkit simplifies the process of deploying and managing cloud functions by providing a consistent approach to service account setup and permissions management.
 
-## Impersonation
-The function uses service account impersonation. The deploying service account (`pa-cf-deploy-sa`) impersonates the privileged service account (`pa-gcs-ps-privileged-sa`) for certain tasks.
+### Service Accounts
+
+The function employs specific service accounts for its operation, each tailored to perform distinct roles:
+
+1. **Deploy Service Account (`$SERVICE_ACCOUNT`)**:
+   - This service account is primarily used for deploying the Cloud Function.
+   - It is configured to have minimal permissions necessary for the deployment process. After deployment, it can impersonate other service accounts for executing specific tasks, thereby adhering to the principle of least privilege.
+   - The configuration details of this account are managed via the shared configs, ensuring a secure and controlled deployment.
+
+2. **Publish Service Account (`$PUBLISH_SA`)**:
+   - Utilized for operations related to publishing messages to Google Cloud Pub/Sub, a crucial aspect of the function's role in responding to GCS events.
+   - The permissions and setup of this account are defined within the shared configs, aligning it with the function's requirements and security protocols.
+
+The use of these service accounts, as dictated by the PA-CF Shared Configs Toolkit, allows the `PA-CF-GCS-EVENT` Cloud Function to maintain high standards of security and efficiency. The toolkit ensures that service accounts are appropriately configured for their respective roles in the function's lifecycle. For more detailed information on the service accounts' configuration, please refer to the [PA-CF Shared Configs Toolkit](https://github.com/acep-uaf/pa-cf-shared-configs).
+
 
 ## Deployment Script for PA-CF-GCS-EVENT Cloud Function
 
