@@ -139,7 +139,9 @@ The `pa-cf-gcs-event` Cloud Function depends on a range of external libraries an
 4. **Python Libraries**:
     - `google-cloud-pubsub`: The Python client library for Google Cloud Pub/Sub, enabling the function to publish messages to Pub/Sub topics.
     - `google-cloud-secret-manager`: Used for accessing secrets stored in Google Secret Manager, critical for managing secure credentials.
-    - `google-auth`, `google-auth-httplib2`, and `google-auth-oauthlib`: These libraries provide authentication functionalities, essential for interacting securely with Google Cloud services and are listed in `requirements.txt` .
+    - `google-auth`, `google-auth-httplib2`, and `google-auth-oauthlib`.
+    
+     These libraries provide authentication functionalities, essential for interacting securely with Google Cloud services and are listed in `requirements.txt` .
 
 5. **Regular Expression Processing**:
     - The function uses Python's built-in `re` module for regex operations, crucial for pattern matching in file names.
