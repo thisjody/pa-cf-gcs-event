@@ -57,6 +57,8 @@ Before deploying and using this cloud function, ensure you have:
 
 7. - **Permissions**: The function and its service account should have permissions for accessing Secret Manager, impersonating other service accounts, and publishing messages to Pub/Sub.
 
+8. - **Cloud Storage Triggers Permission**: In order to use Cloud Storage triggers with Cloud Functions (2nd gen), ensure that the Cloud Storage service agent has the `roles/pubsub.publisher` IAM role on your project. This permission allows Cloud Storage to publish events to Pub/Sub, enabling the Cloud Function to trigger in response to file changes in the bucket. For detailed steps on setting this IAM role, refer to the [official documentation](https://cloud.google.com/functions/docs/calling/storage).
+
 8. **PA-CF Shared Configs Toolkit**: Familiarity with the PA-CF Shared Configs Toolkit is recommended for efficient setup and deployment.
 
 Completing these prerequisites ensures that the `pa-cf-gcs-event` Cloud Function can be deployed smoothly and will operate as intended in your Google Cloud environment.
