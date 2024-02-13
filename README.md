@@ -59,6 +59,8 @@ Before deploying and using this cloud function, ensure you have:
 
 8. - **Cloud Storage Triggers Permission**: In order to use Cloud Storage triggers with Cloud Functions (2nd gen), ensure that the Cloud Storage service agent has the `roles/pubsub.publisher` IAM role on your project. This permission allows Cloud Storage to publish events to Pub/Sub, enabling the Cloud Function to trigger in response to file changes in the bucket. For detailed steps on setting this IAM role, refer to the [official documentation](https://cloud.google.com/functions/docs/calling/storage).
 
+9. - **Enable IAM Service Account Credentials API**: To utilize service account impersonation features within the Cloud Function, the IAM Service Account Credentials API must be enabled in your Google Cloud Project. This API is crucial for allowing the deployment service account to impersonate another service account, ensuring secure and scoped access to Google Cloud resources. Enabling this API can be done through the Google Cloud Console or using the gcloud command-line tool. For more information and steps on enabling this API, please refer to [Enabling and Disabling Services](https://cloud.google.com/service-usage/docs/enable-disable).
+
 9. **PA-CF Shared Configs Toolkit**: Familiarity with the PA-CF Shared Configs Toolkit is recommended for efficient setup and deployment.
 
 Completing these prerequisites ensures that the `pa-cf-gcs-event` Cloud Function can be deployed smoothly and will operate as intended in your Google Cloud environment.
